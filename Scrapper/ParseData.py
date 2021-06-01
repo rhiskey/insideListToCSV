@@ -6,6 +6,9 @@ import urllib.request
 
 from bs4 import BeautifulSoup
 
+from Classes.CSVDoc import CSVDoc
+from Classes.Detail import Detail
+
 
 def process_pages_get_detail(html_names):
     details2return = []
@@ -18,29 +21,24 @@ def process_pages_get_detail(html_names):
         soup = BeautifulSoup(html_doc, 'html.parser', from_encoding="utf-8")
 
         card = soup.find_all('div', {"class": "coinfo block-part"})
-        img_url = ''
-        alt = ''
-        birth_date = ''
-        education = ''
-        group = ''
-        uuid = uuid_file_name
+        name = ''
+        evidence = ''
+        inn = ''
+        address = ''
+        website = ''
 
         for tag in card:
-            cardd = tag.find_all("div", {"class": "card"})
-            img = tag.find_all("img")
-            src = img[0].attrs['src']
-            alt = img[0].attrs['alt']
+            cardd = tag.find_all("div", {"class": "coinfo_item row"})
 
-            if src != "/static/lks/images/profile.png":
-                # img_url = src
-                img_url = 'https://portfolio.bmstu.ru' + src
             for tag2 in cardd:
-                date_educ_group = tag2.find_all("h6", {"class": "card-subtitle"})
-                birth_date = date_educ_group[1].text
-                education = date_educ_group[2].text
-                group = date_educ_group[3].text
+                divs = tag2.find_all("div", {"class": "coinfo_item_text col-md-13 offset-md-1"})
+                evidence = divs[1].text
+                inn = divs[2].text
+                address = divs[3].text
+                website = divs[3].text
 
-        user = PortfolioUser(alt, img_url, birth_date, education, group, uuid)
-        details2return.append(user)
+        doc = Detail(name, evidence, inn, address, website)
+        details2return.append(doc)
 
     return details2return
+

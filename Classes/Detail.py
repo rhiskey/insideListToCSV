@@ -5,4 +5,4 @@ class Detail:
         self.inn = inn
         self.address = address
         self.website = website
-        
+
