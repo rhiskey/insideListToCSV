@@ -1,0 +1,1 @@
+1. Go to https://github.com/mozilla/geckodriver/releases/ and install geckodriver
