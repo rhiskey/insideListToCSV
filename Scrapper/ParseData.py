@@ -21,23 +21,54 @@ def process_pages_get_detail(html_names):
         soup = BeautifulSoup(html_doc, 'html.parser', from_encoding="utf-8")
 
         card = soup.find_all('div', {"class": "coinfo block-part"})
+
+        id = uuid_file_name
         name = ''
         evidence = ''
         inn = ''
         address = ''
         website = ''
 
+        dict_to_format = {}
         for tag in card:
             cardd = tag.find_all("div", {"class": "coinfo_item row"})
+            # Check if inner div text equal = Наименование, знак обслуживания, коммерческое обозначение и иные средства
+            # индивидуализации лица
+            # # => read next div
+            # Признаки, установленные Банком России
+            # ИНН
+            # Адрес предоставления лицом услуг<sup>*</sup>
+            # Сайт в сети «Интернет»
 
-            for tag2 in cardd:
-                divs = tag2.find_all("div", {"class": "coinfo_item_text col-md-13 offset-md-1"})
-                evidence = divs[1].text
-                inn = divs[2].text
-                address = divs[3].text
-                website = divs[3].text
+            # rr = cardd.find_next_siblings("div")
 
-        doc = Detail(name, evidence, inn, address, website)
+            for div in cardd:
+                # chld = div.children
+                alldivs = div.find_all('div')
+
+                if alldivs[0].text == 'Наименование, знак обслуживания, коммерческое обозначение и иные средства ' \
+                                      'индивидуализации лица ':
+                    # print('Name: ' + alldivs[1].text)
+                    name = alldivs[1].text
+
+                if alldivs[0].text == 'Признаки, установленные Банком России':
+                    # print('Evidence: ' + alldivs[1].text)
+                    evidence = alldivs[1].text
+
+                if alldivs[0].text == 'ИНН':
+                    # print('INN: ' + alldivs[1].text)
+                    inn = alldivs[1].text
+
+                if alldivs[0].text == 'Адрес предоставления лицом услуг*':
+                    # print('Address: ' + alldivs[1].text)
+                    address = alldivs[1].text
+
+                if alldivs[0].text == 'Сайт в сети «Интернет»':
+                    # print('Site: ' + alldivs[1].text)
+                    website = alldivs[1].text
+                # print(alldivs)
+
+        doc = Detail(id, name, evidence, inn, address, website)
         details2return.append(doc)
 
     return details2return

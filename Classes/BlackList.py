@@ -12,7 +12,7 @@ def blacklist_json_decode(blacklist_dict):
 
 
 class BlackList:
-    def __init__(self, id, DT, nameOrg):
-        self.id = id
-        self.DT = DT
-        self.nameOrg = nameOrg
+    def __init__(self, id_site, dt, name):
+        self.id = id_site
+        self.DT = dt
+        self.nameOrg = name

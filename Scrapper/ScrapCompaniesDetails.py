@@ -41,7 +41,7 @@ class SeleniumFirefox(object):
             # info_div = self.driver.find_element_by_id("coinfo block-part")
             # table_load = self.wait.until(
             #         presence_of_element_located((By.CLASS_NAME, "coinfo block-part")))
-            time.sleep(1)
+            # time.sleep(1)
 
             html_names.append(str(company.id) + '.html')
             path = os.getcwd()
@@ -51,8 +51,9 @@ class SeleniumFirefox(object):
             else:
                 pathlib.Path(str(path) + '/details/').mkdir(parents=True, exist_ok=True)
                 fname = str(path) + '/details/' + str(company.id) + '.html'
-                with open(fname, 'w') as f:
-                    f.write(self.driver.page_source)
+                with open(fname, 'w', encoding="utf-8") as f:
+                    page = self.driver.page_source
+                    f.write(page)
         return html_names
 
     def get_portfolios(self, table_pages_folder_name):
