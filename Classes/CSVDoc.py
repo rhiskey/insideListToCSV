@@ -24,3 +24,4 @@ class CSVDocEncoder(json.JSONEncoder):
         if isinstance(obj, CSVDoc):
             return obj.__dict__
         return json.JSONEncoder.default(self, obj)
+

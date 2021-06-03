@@ -32,13 +32,6 @@ def process_pages_get_detail(html_names):
         dict_to_format = {}
         for tag in card:
             cardd = tag.find_all("div", {"class": "coinfo_item row"})
-            # Check if inner div text equal = Наименование, знак обслуживания, коммерческое обозначение и иные средства
-            # индивидуализации лица
-            # # => read next div
-            # Признаки, установленные Банком России
-            # ИНН
-            # Адрес предоставления лицом услуг<sup>*</sup>
-            # Сайт в сети «Интернет»
 
             # rr = cardd.find_next_siblings("div")
 

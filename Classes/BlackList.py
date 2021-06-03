@@ -16,3 +16,4 @@ class BlackList:
         self.id = id_site
         self.DT = dt
         self.nameOrg = name
+

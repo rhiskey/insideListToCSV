@@ -11,15 +11,16 @@ from Classes.CSVDoc import CSVDoc, CSVDocEncoder
 from Scrapper.ScrapCompaniesDetails import SeleniumFirefox
 from Classes.BlackList import blacklist_json_decode, BlackList
 from Scrapper.ParseData import process_pages_get_detail
+from Utils.Helpers import extend_details_with_date, decode_json, create_csv
 from Utils.JsonTool import convert_to_dict, dict_to_obj
+from config import blacklist_url
 
 path = pathlib.Path(__file__).parent.absolute()
 
 
 def get_blacklist():
     # PageSize - can be
-    url = "https://www.cbr.ru/inside/BlackList/datasource/?page=0&dateFrom=&dateTo=&SPhrase=&PageSize=5000&Thema=-1&_" \
-          "=1622632910146 "
+    url = blacklist_url
 
     payload = {}
     headers = {
@@ -30,44 +31,9 @@ def get_blacklist():
     return response.text
 
 
-def decode_json(json_string):
-    dev_dict = json.loads(json_string)
-    count = dev_dict["Counter"][0]['sm']
-    data_dict = dev_dict["Data"]
-    # dev_dict = json.loads(data_dict, object_hook=blacklist_json_decode)
-    bl_list = []
-
-    for company in data_dict:
-        comp_obj = BlackList(company['id'], company['DT'], company['nameOrg'])
-        # print(company['nameOrg'])
-        bl_list.append(comp_obj)
-
-    return bl_list
-
-
-def create_csv():
-    with open('.csv', 'w', newline='') as csvfile:
-        file_writer = csv.writer(csvfile, delimiter=',', lineterminator="\r",
-                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        file_writer.writerow(["Имя", "Класс", "Возраст"])
-        file_writer.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])
-
-
-def extend_details_with_date(detail_class_list, blacklist_class_list):
-    ext_list = []
-    for dc in detail_class_list:
-        # csv_class_obj = CSVDoc('', '', '', '', '', '', '')
-        for bc in blacklist_class_list:
-            if int(dc.org_id) == bc.id:
-                # datetime_object = datetime.strptime(bc.DT, "%Y-%m-%dT%H:%M:%S")
-                csv_class_obj = CSVDoc(bc.id, dc.name, dc.evidence, dc.inn, dc.address, dc.website, bc.DT)
-                ext_list.append(csv_class_obj)
-    return ext_list
-
-
 if __name__ == '__main__':
-    # resp = get_blacklist()
-    # bl_class_list = decode_json(resp)
+    resp = get_blacklist()
+    bl_class_list = decode_json(resp)
 
     # # Check if bl_class_list.count != count from Mongo -> compare id's, load missing
 
@@ -87,7 +53,7 @@ if __name__ == '__main__':
     #
     # details_bl = process_pages_get_detail(relative_single_pages)
     # ext_csvdoc_class = extend_details_with_date(details_bl, bl_class_list)
-    #
+
     # # Save info in MONGO/Json
     # with open('inside.json', 'w', encoding='utf-8') as outfile:
     #     # data = json.dumps(filtered_users, default=convert_to_dict, indent=4, sort_keys=True)
@@ -97,16 +63,19 @@ if __name__ == '__main__':
     #     for u in ext_csvdoc_class:
     #         dc = vars(u)
     #         dict_lst.append(dc)
-    #     # insert_multiple_to_Mongo(dict_lst)
+        # insert_multiple_to_Mongo(dict_lst)
 
     # Read From json file
+    dict_lst = []
     with open('inside.json', 'r', encoding='utf-8') as json_file:
         insides_ = json.loads(json_file.read(), object_hook=dict_to_obj)
-        print(insides_)
-        # dict_lst = []
-        # for u in insides_:
-        #     dc = vars(u)
-        #     dict_lst.append(dc)
+        for ins in insides_:
+            # Preprocess
+            ins.address = ins.address.replace('\n', '')
+            ins.evidence = ins.evidence.replace('\"', '')
+        for u in insides_:
+            dc = vars(u)
+            dict_lst.append(dc)
         # insert_multiple_to_Mongo(dict_lst)
 
     # # Read from Mongo
@@ -117,3 +86,5 @@ if __name__ == '__main__':
     #     users_.append(cls)
 
     # # Save insides_ to CSV
+    create_csv(dict_lst)
+

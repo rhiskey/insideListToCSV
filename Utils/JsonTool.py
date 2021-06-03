@@ -22,7 +22,7 @@ def dict_to_obj(d):
     if isinstance(d, list):
         d = [dict_to_obj(x) for x in d]
 
-        # if d is not a instance of dict then
+    # if d is not a instance of dict then
     # directly object is returned
     if not isinstance(d, dict):
         return d
@@ -38,3 +38,4 @@ def dict_to_obj(d):
         obj.__dict__[k] = dict_to_obj(d[k])
 
     return obj
+
