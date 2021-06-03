@@ -17,7 +17,7 @@ from Classes.BlackList import BlackList
 class SeleniumFirefox(object):
     def __init__(self):
         opts = FirefoxOptions()
-        # opts.add_argument("--headless")
+        opts.add_argument("--headless")
         self.driver = webdriver.Firefox(options=opts)
         self.wait = WebDriverWait(self.driver, 10)
 

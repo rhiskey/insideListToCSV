@@ -35,7 +35,7 @@ if __name__ == '__main__':
     resp = get_blacklist()
     bl_class_list = decode_json(resp)
 
-    # # Check if bl_class_list.count != count from Mongo -> compare id's, load missing
+    # # TODO: Check if bl_class_list.count != count from Mongo -> compare id's, load missing
 
     # # Scrap details
     # browser = SeleniumFirefox()
@@ -63,6 +63,8 @@ if __name__ == '__main__':
     #     for u in ext_csvdoc_class:
     #         dc = vars(u)
     #         dict_lst.append(dc)
+
+    # TODO: MongoDB
         # insert_multiple_to_Mongo(dict_lst)
 
     # Read From json file
@@ -78,7 +80,7 @@ if __name__ == '__main__':
             dict_lst.append(dc)
         # insert_multiple_to_Mongo(dict_lst)
 
-    # # Read from Mongo
+    # # TODO: Read from Mongo
     # insides_mongo = read_users_from_Mongo()
     # insides_ = []
     # for u in insides_mongo:
