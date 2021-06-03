@@ -1,5 +1,6 @@
 import os
 import pathlib
+import sys
 import time
 
 from selenium import webdriver
@@ -12,6 +13,14 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver import FirefoxOptions
 
 from Classes.BlackList import BlackList
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, relative_path)
 
 
 class SeleniumFirefox(object):
