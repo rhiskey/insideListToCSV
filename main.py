@@ -32,8 +32,8 @@ def get_blacklist():
 
 
 if __name__ == '__main__':
-    resp = get_blacklist()
-    bl_class_list = decode_json(resp)
+    # resp = get_blacklist()
+    # bl_class_list = decode_json(resp)
 
     # # TODO: Check if bl_class_list.count != count from Mongo -> compare id's, load missing
 
