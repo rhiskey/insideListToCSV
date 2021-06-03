@@ -41,7 +41,7 @@ class SeleniumFirefox(object):
     #
     #     self.wait.until(presence_of_element_located((By.CLASS_NAME, "card-title")))
 
-    def process_list_of_companies(self, companies_class_list: list[BlackList]):
+    def process_list_of_companies(self, companies_class_list):
         html_names = []
         for company in companies_class_list:
             self.driver.implicitly_wait(1)
