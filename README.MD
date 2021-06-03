@@ -1,5 +1,5 @@
 1. Go to https://github.com/mozilla/geckodriver/releases/ and place geckodriver to proj folder
-or add it to system env Path `C\Python\Python39`
+or add it to system env Path `C\Python\Python39` or default `C:\Users\USERNAME\AppData\Local\Programs\Python\Python38`
 2. Install requirements `pip install -r requirements.txt`
 3. (Optional) Pass connection to MongoDB in env file
 4. Run `main.py`
