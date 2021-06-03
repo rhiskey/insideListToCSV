@@ -55,14 +55,17 @@ class SeleniumFirefox(object):
             html_names.append(str(company.id) + '.html')
             path = os.getcwd()
             page_file = pathlib.Path(str(path) + '/details/' + str(company.id) + '.html')
-            if page_file.is_file():
-                print('file exist: ', str(company.id) + str('.html'))
-            else:
-                pathlib.Path(str(path) + '/details/').mkdir(parents=True, exist_ok=True)
-                fname = str(path) + '/details/' + str(company.id) + '.html'
-                with open(fname, 'w', encoding="utf-8") as f:
-                    page = self.driver.page_source
-                    f.write(page)
+
+            # TODO: Update info insted check
+
+            # if page_file.is_file():
+            #     print('file exist: ', str(company.id) + str('.html'))
+            # else:
+            pathlib.Path(str(path) + '/details/').mkdir(parents=True, exist_ok=True)
+            fname = str(path) + '/details/' + str(company.id) + '.html'
+            with open(fname, 'w', encoding="utf-8") as f:
+                page = self.driver.page_source
+                f.write(page)
         return html_names
 
     def get_portfolios(self, table_pages_folder_name):
