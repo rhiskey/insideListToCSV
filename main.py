@@ -64,8 +64,8 @@ if __name__ == '__main__':
             dc = vars(u)
             dict_lst.append(dc)
 
-    # TODO: MongoDB
-        # insert_multiple_to_Mongo(dict_lst)
+    # # TODO: MongoDB
+    # # insert_multiple_to_Mongo(dict_lst)
 
     # Read From json file
     dict_lst = []
@@ -75,6 +75,9 @@ if __name__ == '__main__':
             # Preprocess
             ins.address = ins.address.replace('\n', '')
             ins.evidence = ins.evidence.replace('\"', '')
+            # Trim time from datetime
+            datetime_object = datetime.strptime(ins.update_date, "%Y-%m-%dT%H:%M:%S")
+            ins.update_date = datetime_object.strftime("%d.%m.%Y")
         for u in insides_:
             dc = vars(u)
             dict_lst.append(dc)
